@@ -1,0 +1,81 @@
+// CS-3505 A3: A Trie and the Rule-of-Three
+// @version 9.24.2018
+// @author Yingjie Lian
+
+using namespace std;
+
+#include <iostream>
+#include <vector>
+#include <string>
+#include <fstream>
+#include "Trie.h"
+#include "Node.h"
+
+// This method generates a Binary Trie object and peforms a series of tests on the object to ensure it is working correctly. 
+// Note: This method takes in two input parameters.
+int main(int argc, const char * argv[]){
+
+    if(argc != 3){
+        cout << "You didn't enter the correct number of files!" << endl;
+        return 0;
+    }
+
+    string dictionaryFile = argv[1];
+    string queriesFile = argv[2];
+
+    string inputLine = "";
+
+    Trie* binTrie = new Trie();
+
+    ifstream wordDict;
+
+    wordDict.open(dictionaryFile);
+
+    if(wordDict.is_open()){
+        while(getline(wordDict, inputLine)){
+            cout << "About to add : " << inputLine << endl;
+            binTrie->addWord(inputLine);
+            cout << "Did I add " << inputLine << binTrie->isWord(inputLine) << endl;
+        }
+    }
+    else{
+        cout << "The input dictionary encountered an issue." << endl;
+        return 0;
+    }
+
+    inputLine = "";
+
+    ifstream wordQueries;
+
+    wordQueries.open(queriesFile);
+
+    if(wordQueries.is_open()){
+        while(getline(wordQueries, inputLine)){
+            if(binTrie->isWord(inputLine)){
+                cout << inputLine + " is found." << endl;
+            }
+            else{
+                vector<string> wordsFromDict = binTrie->allWordsStartingWithPrefix(inputLine);
+                if(wordsFromDict.size() != 0){
+                    cout << "The word " << inputLine << " is not found, did you mean:" << endl;
+                    for(string & word : wordsFromDict){
+                        cout << word << endl;
+                    }
+                }
+                else{
+                    cout << "The word " << inputLine << " is not found, with no suggestions as well." << endl;
+                }
+            }
+        }
+    }
+    else{
+        cout << "Issue reading the queries file." << endl;
+        return 0;
+        }
+
+
+    delete binTrie;
+
+    return 0;
+
+}

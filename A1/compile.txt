@@ -1,0 +1,2 @@
+g++ -o EcoSim EcoSim.cpp
+

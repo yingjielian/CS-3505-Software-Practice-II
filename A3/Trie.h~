@@ -1,0 +1,26 @@
+// CS-3505 A3: A Trie and the Rule-of-Three
+// @version 9.24.2018
+// @author Yingjie Lian
+
+#ifndef A3_TRIE_H
+#define A3_TRIE_H
+
+#include <iostream>
+#include <vector>
+#include "Node.h"
+
+class Trie{
+
+public:
+    Node* rootNode;
+    Trie();
+    Trie(const Trie&);
+    ~Trie();
+    Trie& operator=(Trie);
+    void addWord(std::string);
+    bool isWord(std::string);
+    std::vector<std::string> allWordsStartingWithPrefix(std::string);
+
+};
+
+#endif
